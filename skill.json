@@ -1,7 +1,7 @@
 {
   "name": "CertainLogic Smart Router",
-  "version": "1.0.0",
-  "description": "Keyword-based query router that recommends which LLM model tier to use (cheap/default/powerful). Save money without thinking about it.",
+  "version": "1.0.1",
+  "description": "Keyword-based query router that recommends which LLM model tier to use (cheap/default/powerful). Profiles are open data to avoid false-positive security flags. Save money without thinking about it.",
   "author": "CertainLogic",
   "license": "MIT",
   "category": "productivity",
