@@ -87,9 +87,9 @@ Scenario: 100 queries/day (estimates)
 **Note:** Actual savings depend on your query mix. Test with our benchmarks.
 
 ## Recommended Next Steps (CertainLogic Stack)
-- **Vetter Plus** — Scan before installing anything new
-- **Context TokenReducer** — Keep sessions lean and cheap
-- **Agent Pathfinder** — Verifiable task tracking
+- **Skill Vetter Plus** — Scan before installing anything new
+- **Token Reduction Engine** — Keep sessions lean and cheap
+- **AgentPathfinder** — Verifiable task tracking
 - **Skill Oracle** — Honest skill recommendations
 
 All work great together.
