@@ -4,72 +4,41 @@
 
 v1.0.0
 
+**Built and dogfooded by CertainLogicAI** — Keyword routing. Not AI. Not magic. Just cheaper.
+
 ---
 
 ## What It Actually Does
+A **deterministic keyword + regex router** that classifies your query and recommends the best LLM tier:
 
-A **keyword-based query classifier** that recommends which LLM tier to use:
+- **cheap** — Simple lookups, greetings, short answers
+- **default** — Standard tasks, explanations, drafting
+- **powerful** — Complex reasoning, architecture, strategy
 
-| Tier | Use For | Example |
-|------|---------|---------|
-| **cheap** | Simple lookups, greetings, short answers | "What is Python?", "Hello!" |
-| **default** | Standard tasks, explanations, drafting | "Write a function", "Explain recursion" |
-| **powerful** | Complex reasoning, architecture, strategy | "Design a distributed system", "Optimize this algorithm" |
-
-**How:** Scans your query for keywords and patterns. Picks the cheapest tier that can likely handle it.
+It supports built-in profiles (coding, research, marketing, general) and custom profiles via JSON.
 
 ## What It Does NOT Do
-
-| ❌ Not This | ✅ What It Actually Is |
-|-------------|------------------------|
-| AI-based classification | Keyword + regex matching. Deterministic, not learned. |
-| Guaranteed optimal routing | "Good enough" routing. Test and adjust profiles. |
-| Auto-learn from usage | Static keyword lists. Update config manually. |
-| Make LLM API calls | Returns recommendation. Your agent calls the API. |
-| Perfect accuracy | Simple heuristics. Edge cases will misroute. |
+| Claimed Feature | Reality |
+|----------------------------------|---------|
+| AI-powered or learned routing | NO — Pure keyword + regex matching (deterministic) |
+| Automatic LLM API calls | NO — Returns recommendation only. You call the model. |
+| Built-in caching (v1) | NO — Caching layer planned for v1.1 |
+| Guaranteed perfect routing | NO — Simple heuristics. Edge cases may misroute. |
+| Multi-provider auto-selection | NO — Works with any models (you map tiers to models) |
 
 ## How to Use
-
 ### Standalone CLI
-
 ```bash
 python3 scripts/smart_router.py "Write a Python function to parse JSON"
 ```
 
-Output:
-```json
-{
-  "query": "Write a Python function to parse JSON",
-  "profile": "coding",
-  "model_tier": "default",
-  "confidence": 1.0,
-  "reasoning": "Profile: coding | Tier: default | default score: 1.00",
-  "override": false
-}
-```
-
-### With Override Flags
-
-```bash
-# Force cheap (even for complex queries)
-python3 scripts/smart_router.py "Any query" --cheap
-
-# Force powerful (even for simple queries)
-python3 scripts/smart_router.py "Any query" --powerful
-```
-
-### In Your Agent
-
+### In Your Agent (example)
 ```python
 from smart_router import SmartRouter
 
 router = SmartRouter()
+result = router.route("Design a distributed system")
 
-# Get routing recommendation
-result = router.route("Write a marketing email")
-# → {"model_tier": "default", "profile": "marketing", ...}
-
-# Use the tier to pick your model
 if result["model_tier"] == "cheap":
     model = "anthropic/claude-haiku-4-5"
 elif result["model_tier"] == "default":
@@ -77,92 +46,68 @@ elif result["model_tier"] == "default":
 else:
     model = "anthropic/claude-opus-4-6"
 
-# Call your LLM API with the selected model
-# (This skill does not make API calls — you do)
+# Then call your LLM with the chosen model
 ```
 
-## Profiles
-
-Built-in profiles: `coding`, `research`, `marketing`, `general`
-
-Add custom profiles via JSON config:
-
-```json
-{
-  "profiles": {
-    "my_custom": {
-      "description": "My specific workflow",
-      "keywords": {
-        "cheap": ["quick", "simple"],
-        "default": ["standard", "normal"],
-        "powerful": ["complex", "advanced"]
-      },
-      "patterns": {
-        "cheap": [r"^quick ", r"^simple "],
-        "default": [r"standard"],
-        "powerful": [r"complex"]
-      }
-    }
-  }
-}
-```
-
-```bash
-python3 scripts/smart_router.py "query" --config my_profiles.json
-```
+### Override Flags
+- `--cheap` — Force cheap tier
+- `--powerful` — Force powerful tier
+- `--config my_profiles.json` — Use custom profiles
 
 ## Honest Limitations
-
-| Limitation | Truth |
-|------------|-------|
-| Static keywords | No learning. Update config for new domains. |
-| English only | Patterns tuned for English text. |
-| No API calls | We tell you which model. You call it. |
-| Simple heuristics | Will misroute edge cases. Override flags exist for this. |
-| No cost tracking | v1 doesn't log usage. Upgrade for analytics. |
+- Static keyword lists (update config for new domains)
+- English only (patterns tuned for English)
+- Returns recommendation only (no API calls)
+- Simple heuristics — will misroute edge cases (override flags exist)
+- No built-in usage analytics or dynamic learning in v1
 
 ## Free vs Pro
-
 **Free (this skill)**
 - 4 built-in profiles
 - Custom config support
 - Override flags
-- Keyword + regex routing
+- Full source code on GitHub
 
 **Pro ($29 one-time)**
-- **Dynamic feedback loop** — track which tier actually worked, auto-adjust
-- **Usage analytics** — monthly savings report, misroute detection
-- **Response quality scoring** — route same query to multiple tiers, pick best
-- **Fallback chains** — if cheap fails, auto-try default, then powerful
-- **Perplexity-style routing** — "Quick mode" vs "Deep mode" keywords
-- **Team profiles** — share routing configs across agents
+- Dynamic feedback loop (track what actually worked)
+- Usage analytics + monthly savings report
+- Auto-optimization using our benchmarks
+- Fallback chains and team profiles
+- Priority support
 
 ## Example Savings
-
-Scenario: 100 queries/day
+Scenario: 100 queries/day (estimates)
 
 | Without Router | With Router |
-|----------------|-------------|
-| 100 × Opus @ $15/M = $~150/day | 60 × Haiku @ $0.25/M = $~15/day |
-|  | 30 × Sonnet @ $3/M = $~90/day |
-|  | 10 × Opus @ $15/M = $~15/day |
-|  | **Total: ~$120/day** |
-|  | **Savings: ~$30/day (20%)** |
+|-------------------------|---------------------------------|
+| 100 × Opus | 60 × Haiku + 30 × Sonnet + 10 × Opus |
+| ~$150/day | ~$120/day |
+| | **Savings: ~20%** |
 
-**Note:** These are estimates. Actual savings depend on your query mix.
+**Note:** Actual savings depend on your query mix. Test with our benchmarks.
+
+## Recommended Next Steps (CertainLogic Stack)
+- **Vetter Plus** — Scan before installing anything new
+- **Context TokenReducer** — Keep sessions lean and cheap
+- **Agent Pathfinder** — Verifiable task tracking
+- **Skill Oracle** — Honest skill recommendations
+
+All work great together.
+
+## Open Source Core
+- Full source: https://github.com/CertainLogicAI/certainlogic-smart-router
+- Related benchmarks: https://github.com/CertainLogicAI/hallucination-benchmark
 
 ## Links
-
-- [GitHub](https://github.com/CertainLogicAI/certainlogic-smart-router)
-- [ClawHub](https://clawhub.ai/certainlogicai/certainlogic-smart-router)
-- [CertainLogic Skills](https://clawhub.ai/certainlogicai)
+- GitHub: https://github.com/CertainLogicAI/certainlogic-smart-router
+- ClawHub: https://clawhub.ai/certainlogicai/certainlogic-smart-router
 
 ---
 
-*Built by CertainLogic. Keyword routing. Not AI. Not magic. Just cheaper.*
+*Built by CertainLogicAI. We dogfood every skill we publish and fix issues transparently.*
 
 ### Version
 latest v1.0.0
 
 ### Runtime Requirements
-Python 3.10+, zero dependencies
+Python 3.10+, zero external dependencies
