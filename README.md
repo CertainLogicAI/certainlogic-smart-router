@@ -1,5 +1,7 @@
 # CertainLogic Smart Router
 
+> **DEPRECATED — SUPERSEDED by [smart-router-coding](https://clawhub.ai) and [smart-router-intents](https://clawhub.ai).** This repository remains public for reference and prior-art purposes. New users should install the focused routers instead.
+
 **Route queries to the right model tier. Save money without thinking about it.**
 
 ## Quick Start
